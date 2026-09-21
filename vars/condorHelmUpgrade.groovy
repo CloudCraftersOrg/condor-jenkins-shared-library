@@ -5,7 +5,6 @@
 def call(Map config) {
     def setArgs = (config.extraSet ?: []).collect { "--set ${it}" }.join(' ')
     sh """
-        export HOME=/root
         aws eks update-kubeconfig --name ${config.clusterName} --region ${config.region ?: 'us-east-1'}
         kubectl get namespace ${config.namespace} || kubectl create namespace ${config.namespace}
         helm upgrade --install ${config.releaseName} ${config.chartPath} -n ${config.namespace} ${setArgs}
