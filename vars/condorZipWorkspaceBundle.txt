@@ -1,0 +1,3 @@
+Zips the whole workspace (minus .git) into bundle.zip. For apps whose
+appspec.yml ships the whole repo as the CodeDeploy bundle, instead of a
+single built artifact - see condorZipCodeDeployBundle for that shape.
