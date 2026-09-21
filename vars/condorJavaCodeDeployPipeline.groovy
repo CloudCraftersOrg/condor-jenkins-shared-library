@@ -3,11 +3,17 @@
 // No test stage, no input step: those are load-bearing (P1-11, AK-PIP-06),
 // not an oversight - do not add them to this step.
 def call(Map config) {
+    // Declarative pipeline's environment{} block only accepts literals,
+    // interpolated strings, or function calls - not the ?: expression
+    // directly (confirmed live: CpsCompilationErrorsException). Resolve it
+    // first, then interpolate the plain variable.
+    def region = config.awsRegion ?: 'us-east-1'
+
     pipeline {
         agent any
 
         environment {
-            AWS_DEFAULT_REGION = config.awsRegion ?: 'us-east-1'
+            AWS_DEFAULT_REGION = "${region}"
         }
 
         stages {
