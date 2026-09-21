@@ -3,19 +3,22 @@
 Reusable Jenkins pipeline steps for the Condor estate apps, registered on
 `condor-jenkins` as the global library `condor-shared`.
 
-Currently used by `condor-reportes` (the only estate app whose pipeline
-runs on Jenkins today — Tienda deploys through CodePipeline, Pagos through
-GitHub Actions). Written generically so any future Java + CodeDeploy app
-on Jenkins can adopt it directly.
+Used by `condor-reportes`, `condor-tienda`, and `condor-pagos`. Tienda and
+Pagos also keep their original pipelines (CodePipeline and GitHub Actions
+respectively) — these Jenkins pipelines run alongside them, not instead of
+them.
 
 ## Steps
 
 | Step | Purpose |
 |---|---|
 | `condorMavenBuild()` | `mvn -B package` |
-| `condorZipCodeDeployBundle(...)` | Build the CodeDeploy zip (jar + systemd unit + scripts + appspec.yml) |
-| `condorPublishAndDeploy(...)` | Upload the bundle to S3, trigger `aws deploy create-deployment` |
-| `condorJavaCodeDeployPipeline(...)` | The full Build+Deploy pipeline in one call |
+| `condorZipCodeDeployBundle(...)` | Build a CodeDeploy zip from a single artifact (jar + systemd unit + scripts + appspec.yml) |
+| `condorZipWorkspaceBundle()` | Build a CodeDeploy zip from the whole workspace (apps whose appspec.yml ships the whole repo) |
+| `condorPublishAndDeploy(...)` | Upload a CodeDeploy bundle to S3, trigger `aws deploy create-deployment` |
+| `condorEcrBuildPush(...)` | Build the workspace Dockerfile, push to ECR tagged with the commit SHA, set `env.IMAGE_DIGEST` |
+| `condorHelmUpgrade(...)` | `aws eks update-kubeconfig` + `helm upgrade --install` |
+| `condorJavaCodeDeployPipeline(...)` | The full Maven + CodeDeploy Build+Deploy pipeline in one call |
 
 See each step's `.txt` file in `vars/` for parameters and an example.
 

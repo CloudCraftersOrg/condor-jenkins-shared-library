@@ -1,0 +1,14 @@
+aws eks update-kubeconfig + helm upgrade --install.
+
+condorHelmUpgrade(
+    clusterName: 'condor-myapp',
+    namespace: 'myapp',
+    releaseName: 'myapp',
+    chartPath: 'chart/',
+    extraSet: [
+        'image.repository=...',
+        'image.digest=' + env.IMAGE_DIGEST,
+        'env.DATABASE_URL=' + databaseUrl,
+    ],
+    region: 'us-east-1', // optional
+)
