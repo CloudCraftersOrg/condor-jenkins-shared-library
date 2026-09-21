@@ -7,4 +7,13 @@ condorPublishAndDeploy(
     deploymentGroupName: 'condor-myapp-prod',
 )
 
+Or, for an app whose bucket has a CFN-random name instead of the
+predictable <prefix>-<account-id> pattern:
+
+condorPublishAndDeploy(
+    bucket: 'condor-myapp-artifactbucket-abc123xyz',
+    applicationName: 'condor-myapp',
+    deploymentGroupName: 'condor-myapp-prod',
+)
+
 Resolves the AWS account ID via STS at run time - never hardcode it.
