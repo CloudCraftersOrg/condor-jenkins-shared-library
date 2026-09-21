@@ -1,0 +1,11 @@
+Builds bundle.zip for CodeDeploy, matching the layout every condor app's
+appspec.yml expects.
+
+condorZipCodeDeployBundle(
+    jar: 'target/myapp.jar',          // built artifact
+    appName: 'condor-myapp',           // bundle.zip -> <appName>.jar at the root
+    serviceUnit: 'deploy/myapp.service', // systemd unit, copied under deploy/
+)
+
+Also copies scripts/start.sh, scripts/stop.sh, and appspec.yml from the repo
+root - every condor app keeps those at fixed paths.

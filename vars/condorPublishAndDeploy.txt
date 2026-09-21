@@ -1,0 +1,10 @@
+Uploads bundle.zip (built by condorZipCodeDeployBundle) to S3 and triggers a
+CodeDeploy deployment.
+
+condorPublishAndDeploy(
+    s3BucketPrefix: 'condor-myapp-artifacts', // bucket is <prefix>-<account-id>
+    applicationName: 'condor-myapp',
+    deploymentGroupName: 'condor-myapp-prod',
+)
+
+Resolves the AWS account ID via STS at run time - never hardcode it.

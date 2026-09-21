@@ -1,0 +1,17 @@
+Full Build + Deploy pipeline for a Maven app shipped to an ASG via
+CodeDeploy. Use this from a Jenkinsfile that just wants the standard
+condor shape, instead of composing the individual steps by hand:
+
+@Library('condor-shared') _
+condorJavaCodeDeployPipeline(
+    appName: 'condor-myapp',
+    applicationName: 'condor-myapp',
+    deploymentGroupName: 'condor-myapp-prod',
+    s3BucketPrefix: 'condor-myapp-artifacts',
+    // optional: jar, serviceUnit, awsRegion - see condorZipCodeDeployBundle
+    // and condorPublishAndDeploy for their defaults and meaning.
+)
+
+Two stages only: Build, Deploy. No test stage, no input/approval step -
+that absence is intentional for some apps (see individual app task specs
+before assuming it should be added).
